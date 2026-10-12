@@ -19,7 +19,6 @@
   $('#footerText').textContent = S.footer;
   if (S.footerLogo) $('#footerLogo').src = S.footerLogo; else $('#footerLogo').remove();
 
-  $('#tabs').innerHTML = S.tabs.map(t => `<a href="#/${t.id}" data-tab="${t.id}">${t.label}</a>`).join('');
 
   // Keep sticky elements lined up under the header
   const syncHeader = () => document.documentElement.style.setProperty('--topbar-h', $('.topbar').offsetHeight + 'px');
@@ -41,6 +40,12 @@
   /* ---------- Load + render all content ---------- */
   async function load() {
     const content = $('#content');
+    try {
+      const r = await fetch('content/sections.json', { cache: 'no-cache' });
+      if (r.ok) { S.sectionsJson = await r.text(); S.tabs = JSON.parse(S.sectionsJson).tabs; }
+    } catch (e) { console.warn('Using tabs from site.config.js', e); }
+    S.tabs = S.tabs || [];
+    $('#tabs').innerHTML = S.tabs.map(t => `<a href="#/${t.id}" data-tab="${t.id}">${t.label}</a>`).join('');
     const jobs = [];
     S.tabs.forEach(tab => tab.sections.forEach(sec => {
       jobs.push(fetch(`content/${sec.file}`, { cache: 'no-cache' })
@@ -212,15 +217,19 @@
     else window.scrollTo(0, 0);
     document.body.classList.remove('nav-open');
   }
-  function showTab(tab) {
-    if (currentTab === tab.id) return;
+  function showTab(tab, force) {
+    if (currentTab === tab.id && !force) return;
     currentTab = tab.id;
     $$('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === tab.id));
     $$('.page').forEach(p => { p.hidden = p.dataset.tab !== tab.id; });
-    $('#sectionNav').innerHTML = tab.sections.map(s =>
-      `<a href="#/${tab.id}/${s.id}" data-sec="${s.id}" class="${s.style === 'alert' ? 'alert-link' : ''}">${s.label}</a>`).join('');
-    setupBanner(tab);
+    renderNav(tab);
+    if (!force) setupBanner(tab);
     observeSections();
+  }
+  function renderNav(tab) {
+    $('#sectionNav').innerHTML = tab.sections.map(s =>
+      `<a href="#/${tab.id}/${s.id}" data-sec="${s.id}" class="${s.style === 'alert' ? 'alert-link' : ''}">${escapeHtml(s.label)}</a>`).join('') +
+      (S.editing !== false ? `<button type="button" class="add-section" data-tab="${tab.id}">+ Add section</button>` : '');
   }
   function scrollToSection(id) {
     const el = document.getElementById('s-' + id);
@@ -316,15 +325,12 @@
   $('#menuBtn').onclick = () => document.body.classList.toggle('nav-open');
   $('#scrim').onclick = () => document.body.classList.remove('nav-open');
 
-  /* ---------- Crisp chat (optional) ---------- */
-  if (S.crispWebsiteId) {
-    window.$crisp = []; window.CRISP_WEBSITE_ID = S.crispWebsiteId;
-    const s = document.createElement('script'); s.src = 'https://client.crisp.chat/l.js'; s.async = true; document.head.appendChild(s);
-  }
 
   // Hooks used by editor.js
   window.SiteApp = {
     renderSection, buildSearchIndex, toast, escapeHtml, parseBanners,
+    currentTab: () => S.tabs.find(t => t.id === currentTab),
+    refreshNav() { const t = S.tabs.find(x => x.id === currentTab); if (t) showTab(t, true); },
     refreshBanner() { const t = S.tabs.find(x => x.id === currentTab); if (t) setupBanner(t); },
     find(id) { for (const tab of S.tabs) for (const sec of tab.sections) if (sec.id === id) return { tab, sec }; return null; }
   };

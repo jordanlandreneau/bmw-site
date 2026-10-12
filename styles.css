@@ -238,3 +238,11 @@ details.panel > .panel-body { padding: 0 16px 8px; }
 .ban-add { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
 .ban-add input[type=url] { flex: 1; min-width: 180px; font: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
 .modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }
+
+/* Add section */
+.add-section { margin-top: 10px; font: inherit; font-size: 13px; font-weight: 600; color: var(--bmw-blue); background: transparent;
+  border: 1.5px dashed var(--line); border-radius: 8px; padding: 8px 12px; cursor: pointer; text-align: left; }
+.add-section:hover { border-color: var(--bmw-blue); background: var(--card); }
+.field { display: flex; flex-direction: column; gap: 4px; font-size: 13px; font-weight: 600; color: var(--ink-2); margin-top: 14px; }
+.field input, .field select { font: inherit; font-weight: 400; font-size: 14px; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+.edit-bar button.danger-text { color: var(--red); }

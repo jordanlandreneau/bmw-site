@@ -25,13 +25,17 @@ export default async function handler(req, res) {
   let body = req.body;
   if (typeof body === 'string') { try { body = JSON.parse(body); } catch { body = {}; } }
   const { file, content, base64, baseSha, force } = body || {};
-  const isText = typeof file === 'string' && /^content\/[a-z0-9_\-\/]+\.md$/i.test(file);
+  const isText = typeof file === 'string' && (/^content\/[a-z0-9_\-\/]+\.md$/i.test(file) || file === 'content/sections.json');
   const isImage = typeof file === 'string' && /^content\/images\/[a-z0-9_\-]+\.(jpe?g|png|webp|gif)$/i.test(file);
   if ((!isText && !isImage) || file.includes('..')) {
     return res.status(400).json({ error: 'Invalid file.' });
   }
   if (isText && (typeof content !== 'string' || content.length > 500000)) {
     return res.status(400).json({ error: 'Invalid content.' });
+  }
+  if (file === 'content/sections.json') {
+    try { const j = JSON.parse(content); if (!Array.isArray(j.tabs) || !j.tabs.length) throw 0; }
+    catch { return res.status(400).json({ error: 'The section list is not valid.' }); }
   }
   if (isImage && (typeof base64 !== 'string' || base64.length > 4000000 || !/^[A-Za-z0-9+/=]+$/.test(base64))) {
     return res.status(400).json({ error: 'Image is missing or too large.' });

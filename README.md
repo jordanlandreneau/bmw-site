@@ -12,7 +12,9 @@ content/                 ← ALL THE WORDS. One file per section.
   main/                    Main tab (hours.md, valet.md, directory.md, …)
   teleservice/             Teleservice tab
   mdl-automation/          MDL Automation tab
-site.config.js           ← Tabs, section order, banner images, title
+site.config.js           ← Site title, footer, time zone
+content/sections.json    ← Tabs and section order (managed from the site)
+content/banners.md       ← Banner images (managed from the site)
 index.html, app.js,      ← The engine. You don't need to touch these.
 styles.css, vendor/
 middleware.js            ← Optional password protection (see below)
@@ -25,6 +27,10 @@ middleware.js            ← Optional password protection (see below)
 2. Use the toolbar for **Bold**, **Red / Blue / Highlight** text, bullet lists, headings and links.
    In tables (like the directory), click a row and use **+ Row below** to add a person, or **− Delete row**.
 3. Click **Save**. Everyone sees the change in about a minute.
+
+**Add a section:** in the side menu, click **+ Add section** at the bottom, give it a name,
+choose where it goes and how it looks, then type its content and click **Save**.
+**Delete a section:** click its **Edit**, then **Delete section**.
 
 **Banner images:** click **✎ Edit images** on the rotating banner (Main tab) to upload, remove,
 reorder, or paste in image links.
@@ -50,7 +56,7 @@ Saving needs permission to update the GitHub repo:
 ### Editing the files directly (advanced)
 
 Each section is a file in `content/` written in Markdown (`**bold**`, `- bullet`, `| table |`).
-Tabs and the order of sections are in `site.config.js`.
+Tabs and the order of sections are in `content/sections.json`.
 
 ## Putting it on Vercel (first time)
 

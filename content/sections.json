@@ -1,0 +1,129 @@
+{
+  "_note": "Tabs and sections of the site, in order. Easiest way to add or remove sections: use the site (+ Add section / Delete section).",
+  "tabs": [
+    {
+      "id": "main",
+      "label": "Main",
+      "showBanners": true,
+      "sections": [
+        {
+          "id": "logins",
+          "label": "Logins",
+          "file": "main/logins.md",
+          "style": "logins"
+        },
+        {
+          "id": "hours",
+          "label": "Hours",
+          "file": "main/hours.md"
+        },
+        {
+          "id": "important",
+          "label": "Important",
+          "file": "main/important.md",
+          "style": "alert"
+        },
+        {
+          "id": "checklist",
+          "label": "Checklist",
+          "file": "main/checklist.md"
+        },
+        {
+          "id": "drop-off",
+          "label": "Drop Off",
+          "file": "main/drop-off.md"
+        },
+        {
+          "id": "pick-up",
+          "label": "Pick Up",
+          "file": "main/pick-up.md"
+        },
+        {
+          "id": "emergencies",
+          "label": "Emergencies",
+          "file": "main/emergencies.md"
+        },
+        {
+          "id": "loaners",
+          "label": "Loaners",
+          "file": "main/loaners.md"
+        },
+        {
+          "id": "valet",
+          "label": "Valet",
+          "file": "main/valet.md"
+        },
+        {
+          "id": "warranty",
+          "label": "Warranty",
+          "file": "main/warranty.md"
+        },
+        {
+          "id": "lease",
+          "label": "Lease",
+          "file": "main/lease.md"
+        },
+        {
+          "id": "services",
+          "label": "Services",
+          "file": "main/services.md"
+        },
+        {
+          "id": "directory",
+          "label": "Directory",
+          "file": "main/directory.md",
+          "collapsible": true
+        },
+        {
+          "id": "bmw-codes",
+          "label": "BMW Codes",
+          "file": "main/bmw-codes.md"
+        }
+      ]
+    },
+    {
+      "id": "teleservice",
+      "label": "Teleservice",
+      "sections": [
+        {
+          "id": "tele-logins",
+          "label": "Logins",
+          "file": "teleservice/logins.md",
+          "style": "logins"
+        },
+        {
+          "id": "guidelines",
+          "label": "Guidelines",
+          "file": "teleservice/guidelines.md"
+        },
+        {
+          "id": "types-of-leads",
+          "label": "Types of Leads",
+          "file": "teleservice/types-of-leads.md"
+        },
+        {
+          "id": "how-to-handle",
+          "label": "How to Handle",
+          "file": "teleservice/how-to-handle.md"
+        },
+        {
+          "id": "scripts",
+          "label": "Email/Text Scripts",
+          "file": "teleservice/scripts.md"
+        }
+      ]
+    },
+    {
+      "id": "mdl-automation",
+      "label": "MDL Automation",
+      "sections": [
+        {
+          "id": "mdl-login",
+          "label": "MDL Login",
+          "file": "mdl-automation/login.md",
+          "style": "logins"
+        }
+      ]
+    }
+  ]
+}

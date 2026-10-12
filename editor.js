@@ -56,6 +56,7 @@
         <button data-cmd="rowDelete" class="table-only" title="Delete the row you're in">− Delete row</button>
       </div>
       <div class="edit-actions">
+        <button data-cmd="deleteSection" class="ghost danger-text" title="Remove this whole section from the site">Delete section</button>
         <span class="edit-hint">Click any text to change it.</span>
         <button data-cmd="cancel" class="ghost">Cancel</button>
         <button data-cmd="save" class="primary">Save</button>
@@ -92,6 +93,7 @@
   function run(cmd) {
     const { area } = active;
     if (cmd === 'save') return save();
+    if (cmd === 'deleteSection') return deleteSection();
     if (cmd === 'cancel') {
       if (toMarkdown(area) !== active.original && !confirm('Discard your changes to this section?')) return;
       return stopEditing();
@@ -449,6 +451,132 @@
       img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('bad image')); };
       img.src = url;
     });
+  }
+
+
+  /* ---------- Add / delete sections ---------- */
+  document.addEventListener('click', e => { const b = e.target.closest('button.add-section'); if (b) openAddSection(b.dataset.tab); });
+
+  function openAddSection(tabId) {
+    const S = window.SITE;
+    const tab = S.tabs.find(t => t.id === tabId); if (!tab) return;
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-card" role="dialog" aria-label="Add a section">
+        <h3>Add a section to “${App.escapeHtml(tab.label)}”</h3>
+        <p class="muted">You can add the text right after it's created.</p>
+        <label class="field">Section name
+          <input type="text" name="name" maxlength="60" placeholder="e.g. Recall Updates" autofocus></label>
+        <label class="field">Put it after
+          <select name="after">
+            <option value="__top">At the very top</option>
+            ${tab.sections.map((s, i) => `<option value="${s.id}" ${i === tab.sections.length - 1 ? 'selected' : ''}>${App.escapeHtml(s.label)}</option>`).join('')}
+          </select></label>
+        <label class="field">Look
+          <select name="style">
+            <option value="">Regular section</option>
+            <option value="alert">Red warning box</option>
+            <option value="logins">Login cards</option>
+            <option value="collapsible">Click-to-open panels (like the Directory)</option>
+          </select></label>
+        <div class="modal-actions">
+          <button type="button" class="ghost" data-a="cancel">Cancel</button>
+          <button type="button" class="primary" data-a="create">Add section</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    const nameIn = $('input[name=name]', modal); nameIn.focus();
+    const close = () => modal.remove();
+    modal.addEventListener('click', async e => {
+      if (e.target === modal) return close();
+      const b = e.target.closest('button[data-a]'); if (!b) return;
+      if (b.dataset.a === 'cancel') return close();
+      const name = nameIn.value.trim();
+      if (!name) { nameIn.focus(); alert('Give the section a name.'); return; }
+      b.disabled = true; b.textContent = 'Adding…';
+      try {
+        const sec = await createSection(tab, name, $('select[name=after]', modal).value, $('select[name=style]', modal).value);
+        close();
+        App.toast('Section added! Type its content, then click Save.');
+        location.hash = `#/${tab.id}/${sec.id}`;
+        setTimeout(() => {
+          startEditing(sec.id);
+          const ph = active && [...active.area.querySelectorAll('p')].find(p => /Click Edit to add text/.test(p.textContent));
+          if (ph) { const r = document.createRange(); r.selectNodeContents(ph); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); }
+        }, 300);
+      } catch (err) { alert(err.message || 'Could not add the section.'); b.disabled = false; b.textContent = 'Add section'; }
+    });
+    nameIn.addEventListener('keydown', e => { if (e.key === 'Enter') $('button[data-a=create]', modal).click(); });
+  }
+
+  async function createSection(tab, name, afterId, look) {
+    const S = window.SITE;
+    const base = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'section';
+    const taken = new Set(S.tabs.flatMap(t => t.sections.map(s => s.id)));
+    let id = base, n = 2; while (taken.has(id) || document.getElementById('s-' + id)) id = `${base}-${n++}`;
+    const sec = { id, label: name, file: `${tab.id}/${id}.md` };
+    if (look === 'alert' || look === 'logins') sec.style = look;
+    if (look === 'collapsible') sec.collapsible = true;
+    const starter = look === 'logins'
+      ? `### System name\n[Open it](https://)\n\n- **User:** username\n- **Pass:** password\n`
+      : look === 'collapsible'
+        ? `## ${name}\n\n## First panel\n\nText inside the first panel.\n\n## Second panel\n\nText inside the second panel.\n`
+        : `## ${name}\n\nClick **Edit** to add text here.\n`;
+
+    // 1) create the section's file, 2) add it to the section list
+    let res = await postWithPassword({ file: `content/${sec.file}`, content: starter });
+    let d = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(d.error || 'Could not create the section.');
+    sec.md = starter; sec.sha = d.sha; sec.originalMd = starter;
+
+    const list = tab.sections.map(stripRuntime);
+    let at = afterId === '__top' ? 0 : list.findIndex(s => s.id === afterId) + 1;
+    if (afterId !== '__top' && at === 0) at = list.length;
+    list.splice(at, 0, stripRuntime(sec));
+    await saveSectionList(tab, list);
+
+    tab.sections.splice(at, 0, sec);
+    const el = App.renderSection(tab, sec);
+    const page = document.querySelector(`.page[data-tab="${tab.id}"]`);
+    const before = afterId === '__top' ? page.firstElementChild : document.getElementById('s-' + afterId);
+    if (afterId === '__top') page.prepend(el); else if (before) before.after(el); else page.appendChild(el);
+    App.refreshNav(); App.buildSearchIndex();
+    return sec;
+  }
+
+  async function deleteSection() {
+    const { tab, sec } = active;
+    if (!confirm(`Delete the whole “${sec.label}” section from the site?\n\n(It can be recovered from GitHub's history if needed.)`)) return;
+    try {
+      const list = tab.sections.filter(s => s.id !== sec.id).map(stripRuntime);
+      await saveSectionList(tab, list);
+      document.removeEventListener('selectionchange', updateTableButtons);
+      active.wrap.remove(); active = null;
+      tab.sections.splice(tab.sections.indexOf(sec), 1);
+      App.refreshNav(); App.buildSearchIndex();
+      App.toast('Section deleted. Everyone will see the change in about a minute.');
+    } catch (err) { alert(err.message || 'Could not delete the section.'); }
+  }
+
+  function stripRuntime(s) {
+    const o = { id: s.id, label: s.label, file: s.file };
+    if (s.style) o.style = s.style; if (s.collapsible) o.collapsible = true;
+    return o;
+  }
+
+  async function saveSectionList(tab, newList) {
+    const S = window.SITE;
+    const data = JSON.parse(S.sectionsJson);
+    const t = data.tabs.find(x => x.id === tab.id);
+    t.sections = newList;
+    const json = JSON.stringify(data, null, 2) + '\n';
+    const baseSha = S.sectionsSha || await gitBlobSha(S.sectionsJson);
+    let res = await postWithPassword({ file: 'content/sections.json', content: json, baseSha });
+    if (res.status === 409) throw new Error('Someone else changed the section list a moment ago. Reload the page and try again.');
+    const d = await res.json().catch(() => ({}));
+    if (!res.ok) throw new Error(d.error || 'Could not update the section list.');
+    S.sectionsJson = json; S.sectionsSha = d.sha;
   }
 
   // exposed for testing
