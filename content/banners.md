@@ -5,5 +5,4 @@ Easiest way to change them: on the site, click "Edit images" on the banner.
 
 - https://www.hlw.com/wp-content/uploads/2024/03/002/HLW_BMWofManhattan_NewYork_Retail_Showroom_InteriorDesign_Sustainability_05-1522x800.jpg
 - https://di-uploads-pod19.dealerinspire.com/bmwofmanhattan/uploads/2022/09/2021-BMW-X5-Blue-Black.jpg
-- https://ride-ct.com/wp-content/uploads/2020/03/BMW-of-Manhattan-600x400.jpg
 - https://s7d9.scene7.com/is/image/streamcompanies/24-BMW-4-Series-PH?$Original-Dimensions-RGB$
