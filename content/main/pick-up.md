@@ -1,7 +1,7 @@
 ## BMW Pick Up
 
 | Day | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
-| --- | --- | --- | --- | --- | --- | --- | --- |
+|---|---|---|---|---|---|---|---|
 | **BMW** | 7:30am - 6:30pm | 7:30am - 6:30pm | 7:30am - 6:30pm | 7:30am - 6:30pm | 7:30am - 6:00pm | 8:00am - 4:00pm | <span class="red">**Closed**</span> |
 | **Mini Cooper** | 7:30am - 6:00pm | 7:30am - 6:00pm | 7:30am - 6:00pm | 7:30am - 6:00pm | 7:30am - 6:00pm | <span class="red">**Closed**</span> | <span class="red">**Closed**</span> |
 
@@ -15,4 +15,4 @@ Map: 640 W 57th St, New York, NY 10019
 - Enterprise 57 Parking LLC Phone Number: +1 212-265-2709
 - <span class="red">For Mini clients they can pick up a confirmed completed car from 8am - 2pm</span>
 
-<span class="red">**Tag Number:** The customer will need to pay the invoice first in order to receive a tag number. The tag number should be sent to the customer after the payment is received. If the customer is having someone else pick the car up they would just need to be able to provide the tag number. No other information is necessary.</span>
+<span class="red">**Tag Number:** The customer will need to pay the invoice first in order to receive a tag number. The tag number should be sent to the customer after the payment is received. If the customer is having someone else pick the car up they would just need to be able to provide the tag number. No other information is necessary</span>
