@@ -25,11 +25,12 @@
   syncHeader(); window.addEventListener('resize', syncHeader);
 
   /* ---------- Live clock (dealership time) ---------- */
-  const clockFmt = new Intl.DateTimeFormat('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
-    hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZone: S.timeZone
-  });
-  const tick = () => { $('#clock').textContent = clockFmt.format(new Date()); };
+  const dateFmt = new Intl.DateTimeFormat('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: S.timeZone });
+  const timeFmt = new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true, timeZone: S.timeZone });
+  const tick = () => {
+    const now = new Date();
+    $('#clock').innerHTML = `<span class="clock-time">${timeFmt.format(now)}</span><span class="clock-date">${dateFmt.format(now)} · New York</span>`;
+  };
   tick(); setInterval(tick, 1000);
 
   function todayIndex() {
@@ -223,6 +224,8 @@
     $$('#tabs a').forEach(a => a.classList.toggle('active', a.dataset.tab === tab.id));
     $$('.page').forEach(p => { p.hidden = p.dataset.tab !== tab.id; });
     renderNav(tab);
+    $('#heroTitle').textContent = tab.showBanners ? S.title : tab.label;
+    $('#hero').classList.toggle('compact', !tab.showBanners);
     if (!force) setupBanner(tab);
     observeSections();
   }

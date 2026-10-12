@@ -4,35 +4,42 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#10161f">
   <title>BMW & MINI of Manhattan · Service Guide</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <button class="menu-btn" id="menuBtn" aria-label="Open sections menu">
-        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
       <a class="brand" href="#/main">
-        <span class="brand-mark" aria-hidden="true">BDC</span>
-        <span class="brand-text">
-          <strong id="siteTitle">BMW & MINI of Manhattan</strong>
-          <small id="siteSubtitle">Service & Scheduling Guide</small>
-        </span>
+        <strong id="siteTitle">BMW & MINI of Manhattan</strong>
+        <small id="siteSubtitle">Service & Scheduling Guide</small>
       </a>
+      <nav class="tabs" id="tabs" aria-label="Pages"></nav>
+    </div>
+  </header>
+
+  <section class="hero" id="hero">
+    <div class="hero-inner">
+      <h1 class="hero-title" id="heroTitle">BMW & MINI of Manhattan</h1>
       <div class="clock" id="clock" aria-live="off"></div>
     </div>
-    <nav class="tabs" id="tabs" aria-label="Pages"></nav>
-  </header>
+    <div class="hero-banner">
+      <div id="banner" class="banner" hidden></div>
+    </div>
+  </section>
 
   <div class="layout">
     <aside class="sidebar" id="sidebar">
       <div class="search">
-        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M20 20l-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="search" type="search" placeholder="Search everything…  ( / )" autocomplete="off">
+        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M20 20l-4.2-4.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+        <input id="search" type="search" placeholder="Search the guide  ( / )" autocomplete="off" aria-label="Search the guide">
       </div>
       <div id="searchResults" class="search-results" hidden></div>
       <nav id="sectionNav" class="section-nav" aria-label="Sections"></nav>
@@ -40,8 +47,7 @@
     <div class="scrim" id="scrim"></div>
 
     <main id="main">
-      <div id="banner" class="banner" hidden></div>
-      <div id="content"><p class="loading">Loading…</p></div>
+      <div id="content"><p class="loading">Loading the guide…</p></div>
       <footer class="site-footer">
         <img id="footerLogo" alt="Worldwide BDC" loading="lazy">
         <p id="footerText"></p>

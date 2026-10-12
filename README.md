@@ -23,7 +23,7 @@ middleware.js            ← Optional password protection (see below)
 ## How to edit (no coding needed)
 
 **On the site itself:** every section has an **✎ Edit** button.
-1. Click **Edit**. The section turns light yellow; click any text and type, just like a Google Doc.
+1. Click **Edit**. The section turns light blue; click any text and type, just like a Google Doc.
 2. Use the toolbar for **Bold**, **Red / Blue / Highlight** text, bullet lists, headings and links.
    In tables (like the directory), click a row and use **+ Row below** to add a person, or **− Delete row**.
 3. Click **Save**. Everyone sees the change in about a minute.
