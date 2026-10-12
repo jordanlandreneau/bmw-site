@@ -579,6 +579,69 @@
     S.sectionsJson = json; S.sectionsSha = d.sha;
   }
 
+
+  /* ---------- Logo & browser icon ---------- */
+  document.addEventListener('click', e => { if (e.target.closest('#logoBtn')) openLogoEditor(); });
+
+  function openLogoEditor() {
+    const cur = document.getElementById('siteLogo');
+    const hasLogo = cur && !cur.hidden && cur.naturalWidth > 0;
+    let pending = null;
+    const modal = document.createElement('div');
+    modal.className = 'modal';
+    modal.innerHTML = `
+      <div class="modal-card" role="dialog" aria-label="Logo and browser icon">
+        <h3>Logo &amp; browser icon</h3>
+        <p class="muted">Shown at the top left of every page and on the browser tab. A PNG with a transparent background looks best.</p>
+        <div class="logo-preview">${hasLogo ? `<img src="${cur.src}" alt="Current logo">` : '<span>No logo uploaded yet.</span>'}</div>
+        <div class="ban-add">
+          <label class="upload-btn">⬆ Upload logo<input type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden></label>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="ghost" data-a="cancel">Cancel</button>
+          <button type="button" class="primary" data-a="save" disabled>Save</button>
+        </div>
+      </div>`;
+    document.body.appendChild(modal);
+    const fileIn = $('input[type=file]', modal), saveBtn = $('button[data-a=save]', modal), preview = $('.logo-preview', modal);
+    const close = () => modal.remove();
+    fileIn.onchange = async () => {
+      const f = fileIn.files[0]; if (!f) return;
+      try { pending = await toPng(f, 512); preview.innerHTML = `<img src="${pending}" alt="New logo">`; saveBtn.disabled = false; }
+      catch { alert(`Couldn't read ${f.name}. Try a PNG or JPG.`); }
+    };
+    modal.addEventListener('click', async e => {
+      if (e.target === modal) return close();
+      const b = e.target.closest('button[data-a]'); if (!b) return;
+      if (b.dataset.a === 'cancel') return close();
+      b.disabled = true; b.textContent = 'Saving…';
+      try {
+        const res = await postWithPassword({ file: 'content/images/logo.png', base64: pending.split(',')[1] });
+        const d = await res.json().catch(() => ({}));
+        if (!res.ok) throw new Error(d.error || 'Upload failed.');
+        if (cur) { cur.src = pending; cur.hidden = false; }
+        const fav = document.getElementById('favicon'); if (fav) fav.href = pending;
+        close(); App.toast('Logo saved! Everyone will see it in about a minute.');
+      } catch (err) { alert(err.message || 'Upload failed.'); b.disabled = false; b.textContent = 'Save'; }
+    });
+  }
+
+  // Keep transparency; limit size so it uploads fast
+  function toPng(file, max) {
+    return new Promise((resolve, reject) => {
+      const img = new Image(), url = URL.createObjectURL(file);
+      img.onload = () => {
+        const w = img.naturalWidth || max, h = img.naturalHeight || max;
+        const scale = Math.min(1, max / Math.max(w, h));
+        const c = document.createElement('canvas'); c.width = Math.round(w * scale); c.height = Math.round(h * scale);
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url); resolve(c.toDataURL('image/png'));
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('bad image')); };
+      img.src = url;
+    });
+  }
+
   // exposed for testing
   window.SiteEditor = { toMarkdown };
 })();

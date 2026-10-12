@@ -35,6 +35,12 @@ choose where it goes and how it looks, then type its content and click **Save**.
 **Banner images:** click **✎ Edit images** on the rotating banner (Main tab) to upload, remove,
 reorder, or paste in image links.
 
+**Logo & browser icon:** in the side menu, click **Logo & browser icon** and upload your logo
+(a PNG with a transparent background looks best). It shows in the header and on the browser tab.
+
+**Light / dark mode:** the switch at the top right cycles **Auto → Light → Dark**. Each person's choice
+is remembered on their computer; Auto follows the computer's own setting.
+
 **Maps:** a line like `Map: 555 W 57th St, New York, NY 10019` shows an English Google Map.
 Edit the address text to move the map.
 

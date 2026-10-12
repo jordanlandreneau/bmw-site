@@ -232,7 +232,7 @@
   function renderNav(tab) {
     $('#sectionNav').innerHTML = tab.sections.map(s =>
       `<a href="#/${tab.id}/${s.id}" data-sec="${s.id}" class="${s.style === 'alert' ? 'alert-link' : ''}">${escapeHtml(s.label)}</a>`).join('') +
-      (S.editing !== false ? `<button type="button" class="add-section" data-tab="${tab.id}">+ Add section</button>` : '');
+      (S.editing !== false ? `<button type="button" class="add-section" data-tab="${tab.id}">+ Add section</button><button type="button" class="logo-btn" id="logoBtn">Logo &amp; browser icon</button>` : '');
   }
   function scrollToSection(id) {
     const el = document.getElementById('s-' + id);
@@ -323,6 +323,27 @@
     if (e.key === '/' && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) { e.preventDefault(); document.body.classList.add('nav-open'); searchBox.focus(); }
     if (e.key === 'Escape') { searchBox.value = ''; searchBox.dispatchEvent(new Event('input')); document.body.classList.remove('nav-open'); }
   });
+
+  /* ---------- Light / dark mode (Auto → Light → Dark) ---------- */
+  const ICONS = {
+    auto: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg>',
+    light: '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+    dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'
+  };
+  const LABELS = { auto: 'Auto', light: 'Light', dark: 'Dark' };
+  function getTheme() { try { return localStorage.getItem('theme') || 'auto'; } catch { return 'auto'; } }
+  function applyTheme(t) {
+    if (t === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = t;
+    try { t === 'auto' ? localStorage.removeItem('theme') : localStorage.setItem('theme', t); } catch {}
+    const btn = $('#themeToggle');
+    btn.innerHTML = `${ICONS[t]}<span class="tt-label">${LABELS[t]}</span>`;
+    btn.title = t === 'auto' ? 'Following your computer (click for Light)' : t === 'light' ? 'Light mode (click for Dark)' : 'Dark mode (click for Auto)';
+  }
+  applyTheme(getTheme());
+  $('#themeToggle').onclick = () => {
+    const next = { auto: 'light', light: 'dark', dark: 'auto' }[getTheme()];
+    applyTheme(next); toast(`${LABELS[next]} mode${next === 'auto' ? ' — follows your computer' : ''}`);
+  };
 
   /* ---------- Mobile menu ---------- */
   $('#menuBtn').onclick = () => document.body.classList.toggle('nav-open');

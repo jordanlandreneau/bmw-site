@@ -9,7 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,200..800&display=swap" rel="stylesheet">
+  <link rel="icon" href="content/images/logo.png" id="favicon">
   <link rel="stylesheet" href="styles.css">
+  <script>try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}</script>
 </head>
 <body>
   <header class="topbar">
@@ -18,10 +20,12 @@
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
       </button>
       <a class="brand" href="#/main">
-        <strong id="siteTitle">BMW & MINI of Manhattan</strong>
-        <small id="siteSubtitle">Service & Scheduling Guide</small>
+        <img class="brand-logo" id="siteLogo" src="content/images/logo.png" alt="" onerror="this.hidden=true" onload="this.hidden=false">
+        <span class="brand-text"><strong id="siteTitle">BMW & MINI of Manhattan</strong>
+        <small id="siteSubtitle">Service & Scheduling Guide</small></span>
       </a>
       <nav class="tabs" id="tabs" aria-label="Pages"></nav>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Switch light or dark mode"></button>
     </div>
   </header>
 
