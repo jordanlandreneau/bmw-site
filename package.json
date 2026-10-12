@@ -1,0 +1,9 @@
+{
+  "name": "bmw-manhattan-guide",
+  "private": true,
+  "version": "1.0.0",
+  "description": "BMW & MINI of Manhattan service & scheduling guide (Worldwide BDC)",
+  "dependencies": {
+    "@vercel/functions": "latest"
+  }
+}
