@@ -26,7 +26,7 @@ window.SITE = {
   // Where the "Edit" buttons point. After you put this site on GitHub,
   // replace with your repo, e.g. "https://github.com/worldwidebdc/bmw-site"
   // (leave "" to hide the Edit buttons)
-  githubRepo: "",
+  githubRepo: "https://github.com/jordanlandreneau/bmw-site",
   githubBranch: "main",
 
   // Crisp live-chat widget (was on the old site). Set to "" to turn it off.
