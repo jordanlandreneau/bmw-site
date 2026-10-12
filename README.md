@@ -18,46 +18,39 @@ styles.css, vendor/
 middleware.js            ← Optional password protection (see below)
 ```
 
-## How to edit
+## How to edit (no coding needed)
 
-**Change wording, hours, a phone number, etc.**
-Open the section's file in `content/` and change the text. Save. That's it.
+**On the site itself:** every section has an **✎ Edit** button.
+1. Click **Edit**. The section turns light yellow; click any text and type, just like a Google Doc.
+2. Use the toolbar for **Bold**, **Red / Blue / Highlight** text, bullet lists, headings and links.
+   In tables (like the directory), click a row and use **+ Row below** to add a person, or **− Delete row**.
+3. Click **Save**. Everyone sees the change in about a minute.
 
-The files use simple formatting ("Markdown"):
+**Banner images:** click **✎ Edit images** on the rotating banner (Main tab) to upload, remove,
+reorder, or paste in image links.
 
-| You type | You get |
-|---|---|
-| `**bold**` | **bold** |
-| `- item` | a bullet point |
-| `1. item` | a numbered step |
-| `### Title` | a sub-heading inside a section |
-| `[Link text](https://…)` | a link |
-| `<span class="red">text</span>` | red warning text (also `blue`, `yellow`) |
-| `> text` | a highlighted callout box |
+**Maps:** a line like `Map: 555 W 57th St, New York, NY 10019` shows an English Google Map.
+Edit the address text to move the map.
 
-Tables look like this — keep the `|` lines lined up row by row:
+(Every save is recorded in GitHub, so any change can be looked up or undone there.)
 
-```
-| Name | Email | Direct Phone |
-|---|---|---|
-| SMITH, JOHN | john.smith@bmwnyc.com | 212-555-0100 |
-```
+### Turn on editing (one-time setup, about 3 minutes)
 
-**Add a person to the directory:** open `content/main/directory.md`, find the department,
-and copy an existing row. Each `## Heading` in that file is one click-to-open department.
+Saving needs permission to update the GitHub repo:
+1. On GitHub: profile picture → **Settings → Developer settings → Personal access tokens →
+   Fine-grained tokens → Generate new token**. Name it `bmw-site editor`, pick an expiration,
+   under *Repository access* choose **Only select repositories → bmw-site**, under
+   *Permissions → Repository permissions* set **Contents → Read and write**. Generate and copy it.
+2. In Vercel: **Settings → Environments → Production → Environment Variables**, add
+   `GITHUB_TOKEN` = the token you copied.
+3. Optional: add `EDITOR_PASSWORD` too if only some people should be able to save changes.
+   Everyone else can still view the site; editors type that password once the first time they save.
+4. Redeploy (or just wait for the next change to deploy).
 
-**Change a login:** edit `content/main/logins.md` (or the Teleservice / MDL login files).
-Each `### Name` becomes one login card.
+### Editing the files directly (advanced)
 
-**Add a new section:** create a new `.md` file in `content/`, then add one line for it in
-`site.config.js` under the right tab. **Add a whole new tab:** copy a tab block in
-`site.config.js`. **Reorder the menu:** move the lines in `site.config.js`.
-
-Things the site does automatically — no extra work needed:
-- Every email address and phone number becomes **click-to-copy**.
-- Schedule tables with day columns (Mon, Tue… or "Mon - Fri") **highlight today** (New York time).
-- The **search box** (or press `/`) searches every tab at once.
-- The live New York clock at the top.
+Each section is a file in `content/` written in Markdown (`**bold**`, `- bullet`, `| table |`).
+Tabs and the order of sections are in `site.config.js`.
 
 ## Putting it on Vercel (first time)
 
@@ -72,10 +65,5 @@ Things the site does automatically — no extra work needed:
    is checked). To make the site fully open instead, don't add `SITE_PASSWORD`.
 4. Optional: use a subdomain like `bmw.worldwidebdc.com` under
    **Settings → Domains**.
-5. Optional: in `site.config.js`, set `githubRepo` to your repo's address. Every section
-   then gets an **Edit** button that opens that section's file on GitHub.
+5. Turn on editing from the site — see "Turn on editing" above.
 
-## Editing after it's live
-
-Edit any file on GitHub (open it → pencil icon → change → **Commit changes**).
-Vercel republishes automatically in about 30 seconds.

@@ -5,7 +5,7 @@
 | **BMW** | 7:30am - 6:30pm | 7:30am - 6:30pm | 7:30am - 6:30pm | 7:30am - 6:30pm | 7:30am - 6:00pm | 8:00am - 4:00pm | <span class="red">**Closed**</span> |
 | **Mini Cooper** | 7:30am - 6:00pm | 7:30am - 6:00pm | 7:30am - 6:00pm | 7:30am - 6:00pm | 7:30am - 6:00pm | <span class="red">**Closed**</span> | <span class="red">**Closed**</span> |
 
-<iframe class="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4056.3412180048767!2d-73.99829990836321!3d40.7708119602401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c2585b5d2fcc1d%3A0xad3d4783b790c75c!2s640%20W%2057th%20St%2C%20New%20York%2C%20NY%2010019%2C%20EE.%20UU.!5e1!3m2!1ses!2sco!4v1724781121895!5m2!1ses!2sco" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+Map: 640 W 57th St, New York, NY 10019
 
 **Garage Address: 640 W 57th St, New York, NY 10019**
 

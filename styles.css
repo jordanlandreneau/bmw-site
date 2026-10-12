@@ -188,3 +188,53 @@ details.panel > .panel-body { padding: 0 16px 8px; }
   .layout { display: block; }
   details.panel { display: block; }
 }
+
+/* ---------- Editing ---------- */
+.section-head .edit { margin-left: auto; background: transparent; color: #cfd6e2; font: inherit; font-size: 13px; font-weight: 600;
+  border: 1px solid #3a4558; padding: 5px 12px; border-radius: 8px; cursor: pointer; }
+.section-head .edit:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,.06); }
+.section.editing { outline: 3px solid var(--bmw-blue); outline-offset: 2px; }
+.section.editing .section-head .edit { display: none; }
+.edit-bar { position: sticky; top: var(--topbar-h); z-index: 20; display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center;
+  padding: 10px 14px; background: var(--card); border-bottom: 1px solid var(--line); box-shadow: 0 4px 10px rgba(15,23,42,.06); }
+.edit-tools, .edit-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.edit-bar button { font: inherit; font-size: 13px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.edit-bar button:hover { border-color: var(--bmw-blue); }
+.edit-bar button.dim { opacity: .4; }
+.edit-bar button.primary { background: var(--bmw-blue); border-color: var(--bmw-blue); color: #fff; font-weight: 700; padding: 7px 18px; }
+.edit-bar button.primary:disabled { opacity: .6; cursor: wait; }
+.edit-bar button.ghost { background: transparent; }
+.edit-bar .sep { width: 1px; height: 22px; background: var(--line); margin: 0 2px; }
+.edit-bar .swatch { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.swatch.red-sw { background: var(--red); } .swatch.blue-sw { background: var(--blue-text); } .swatch.yellow-sw { background: #f5c518; }
+.edit-hint { color: var(--muted); font-size: 12px; margin-right: 4px; }
+.edit-area { outline: none; min-height: 120px; background: #fffef6; }
+@media (prefers-color-scheme: dark) { .edit-area { background: #171d12; } }
+.edit-area h2 { font-size: 18px; margin: 18px 0 8px; padding-top: 10px; border-top: 2px dashed var(--line); }
+.edit-area h2:first-child { border-top: 0; padding-top: 0; margin-top: 0; }
+.edit-area table { outline: 1px dashed var(--line); }
+.edit-area td, .edit-area th { min-width: 40px; }
+.edit-area td:focus-within, .edit-area th:focus-within { background: var(--blue-bg); }
+@media (max-width: 900px) { .edit-hint { display: none; } .edit-bar { top: var(--topbar-h); } }
+
+/* Banner editing */
+.banner-edit { position: absolute; top: 10px; right: 10px; z-index: 2; font: inherit; font-size: 13px; font-weight: 600; color: #fff;
+  background: rgba(0,0,0,.55); border: 1px solid rgba(255,255,255,.4); border-radius: 8px; padding: 6px 12px; cursor: pointer; backdrop-filter: blur(4px); }
+.banner-edit:hover { background: rgba(0,0,0,.8); }
+.banner.empty { aspect-ratio: auto; height: 60px; background: var(--card); border: 2px dashed var(--line); box-shadow: none; }
+.modal { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 200; display: grid; place-items: center; padding: 16px; }
+.modal-card { background: var(--card); color: var(--ink); border-radius: 14px; width: min(640px, 100%); max-height: 90vh; overflow-y: auto; padding: 20px 22px; box-shadow: 0 20px 60px rgba(0,0,0,.35); }
+.modal-card h3 { margin: 0 0 4px; font-size: 18px; }
+.muted { color: var(--muted); font-size: 13px; }
+.ban-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+.ban-row { display: flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 10px; padding: 6px; }
+.ban-row img { width: 120px; height: 40px; object-fit: cover; border-radius: 6px; background: #000; flex: none; }
+.ban-name { flex: 1; min-width: 0; font-size: 12px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.modal-card button, .upload-btn { font: inherit; font-size: 13px; padding: 6px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; }
+.modal-card button:disabled { opacity: .35; cursor: default; }
+.modal-card button.danger:hover { color: var(--red); border-color: var(--red); }
+.modal-card button.primary { background: var(--bmw-blue); border-color: var(--bmw-blue); color: #fff; font-weight: 700; padding: 7px 18px; }
+.upload-btn { background: var(--bar); color: #fff; border-color: var(--bar); font-weight: 600; }
+.ban-add { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.ban-add input[type=url] { flex: 1; min-width: 180px; font: inherit; font-size: 13px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); }
+.modal-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 18px; }

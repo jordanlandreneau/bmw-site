@@ -21,6 +21,10 @@
 
   $('#tabs').innerHTML = S.tabs.map(t => `<a href="#/${t.id}" data-tab="${t.id}">${t.label}</a>`).join('');
 
+  // Keep sticky elements lined up under the header
+  const syncHeader = () => document.documentElement.style.setProperty('--topbar-h', $('.topbar').offsetHeight + 'px');
+  syncHeader(); window.addEventListener('resize', syncHeader);
+
   /* ---------- Live clock (dealership time) ---------- */
   const clockFmt = new Intl.DateTimeFormat('en-US', {
     weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
@@ -44,6 +48,10 @@
         .then(md => { sec.md = md; })
         .catch(err => { sec.error = err.message; }));
     }));
+    jobs.push(fetch('content/banners.md', { cache: 'no-cache' })
+      .then(r => r.ok ? r.text() : '')
+      .then(md => { S.bannersMd = md; S.banners = parseBanners(md); })
+      .catch(() => { S.banners = S.banners || []; }));
     await Promise.all(jobs);
 
     content.innerHTML = '';
@@ -73,10 +81,19 @@
     const first = body.firstElementChild;
     if (first && first.tagName === 'H2') { title = first.textContent; first.remove(); }
 
-    const editUrl = S.githubRepo ? `${S.githubRepo.replace(/\/$/, '')}/edit/${S.githubBranch || 'main'}/content/${sec.file}` : '';
-    wrap.innerHTML = `<div class="section-head"><h2>${escapeHtml(title)}</h2>${editUrl ? `<a class="edit" href="${editUrl}" target="_blank" rel="noopener" title="Edit this section on GitHub">Edit</a>` : ''}</div>`;
+    wrap.innerHTML = `<div class="section-head"><h2>${escapeHtml(title)}</h2>${S.editing !== false && !sec.error ? `<button type="button" class="edit" data-edit="${sec.id}" title="Edit this section">✎ Edit</button>` : ''}</div>`;
     wrap.appendChild(body);
 
+    // A line like "Map: 555 W 57th St, New York, NY" becomes an English Google Map
+    $$('p', body).forEach(p => {
+      const m = p.textContent.trim().match(/^map:\s*(.+)$/i);
+      if (!m || p.children.length > 1) return;
+      const f = document.createElement('iframe');
+      f.className = 'map'; f.loading = 'lazy'; f.referrerPolicy = 'no-referrer-when-downgrade'; f.allowFullscreen = true;
+      f.title = 'Map of ' + m[1];
+      f.src = 'https://maps.google.com/maps?q=' + encodeURIComponent(m[1]) + '&hl=en&z=16&output=embed';
+      p.replaceWith(f);
+    });
     if (sec.collapsible) makeCollapsible(body);
     if (sec.style === 'logins') makeLoginCards(body);
     $$('table', body).forEach(t => {
@@ -231,22 +248,28 @@
   }
 
   /* ---------- Banner carousel ---------- */
+  function parseBanners(md) {
+    return (md || '').split('\n').map(l => l.match(/^\s*[-*]\s+(?:!\[[^\]]*\]\()?(\S+?)\)?\s*$/)).filter(Boolean).map(m => m[1]);
+  }
   let bannerTimer;
   function setupBanner(tab) {
     const box = $('#banner'); clearInterval(bannerTimer);
-    if (!tab.showBanners || !S.banners || !S.banners.length) { box.hidden = true; return; }
+    if (!tab.showBanners || ((!S.banners || !S.banners.length) && S.editing === false)) { box.hidden = true; return; }
     box.hidden = false;
-    box.innerHTML = S.banners.map((src, i) => `<img src="${src}" alt="" class="${i ? '' : 'on'}" onerror="this.remove()">`).join('') +
+    S.banners = S.banners || [];
+    box.classList.toggle('empty', !S.banners.length);
+    box.innerHTML = (S.editing !== false ? '<button type="button" class="banner-edit" id="bannerEdit">✎ Edit images</button>' : '') + S.banners.map((src, i) => `<img src="${src}" alt="" class="${i ? '' : 'on'}" onerror="this.remove()">`).join('') +
       `<div class="dots">${S.banners.map((_, i) => `<button class="${i ? '' : 'on'}" data-i="${i}" aria-label="Banner ${i + 1}"></button>`).join('')}</div>`;
     let i = 0;
     const show = n => { const imgs = $$('img', box), dots = $$('.dots button', box); if (!imgs.length) return;
       i = (n + imgs.length) % imgs.length; imgs.forEach((im, k) => im.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); };
-    box.onclick = e => { const d = e.target.closest('button'); if (d) { show(+d.dataset.i); } };
+    box.onclick = e => { const d = e.target.closest('.dots button'); if (d) { show(+d.dataset.i); } };
     bannerTimer = setInterval(() => show(i + 1), 6000);
   }
 
   /* ---------- Search across every tab ---------- */
   function buildSearchIndex() {
+    searchIndex.length = 0;
     S.tabs.forEach(tab => tab.sections.forEach(sec => {
       const el = document.getElementById('s-' + sec.id); if (!el) return;
       const title = $('.section-head h2', el).textContent;
@@ -298,6 +321,13 @@
     window.$crisp = []; window.CRISP_WEBSITE_ID = S.crispWebsiteId;
     const s = document.createElement('script'); s.src = 'https://client.crisp.chat/l.js'; s.async = true; document.head.appendChild(s);
   }
+
+  // Hooks used by editor.js
+  window.SiteApp = {
+    renderSection, buildSearchIndex, toast, escapeHtml, parseBanners,
+    refreshBanner() { const t = S.tabs.find(x => x.id === currentTab); if (t) setupBanner(t); },
+    find(id) { for (const tab of S.tabs) for (const sec of tab.sections) if (sec.id === id) return { tab, sec }; return null; }
+  };
 
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
