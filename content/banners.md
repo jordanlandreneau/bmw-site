@@ -7,3 +7,4 @@ Easiest way to change them: on the site, click "Edit images" on the banner.
 - https://di-uploads-pod19.dealerinspire.com/bmwofmanhattan/uploads/2022/09/2021-BMW-X5-Blue-Black.jpg
 - https://s7d9.scene7.com/is/image/streamcompanies/24-BMW-4-Series-PH?$Original-Dimensions-RGB$
 - https://www.hrcg.com/wp-content/uploads/2023/03/MINI_NYC_s1_07.jpg
+- https://dealerinspire-shared-assets.s3.us-east-1.amazonaws.com/public/oem/mini/general/mini-oxford-edition-row/mini-oxford-edition-desktop.jpg
