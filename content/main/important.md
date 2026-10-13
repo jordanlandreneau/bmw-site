@@ -1,6 +1,5 @@
 ## Important
 
-- Notes must be left after every call
 - Switch rooftops (mini vs bmw)
 - No drop off box - no drop off after 5:30 pm
 - Cracked windshield they can get a loaner vehicle – per james
