@@ -1,6 +1,6 @@
 ## Emergency Info
 
-1. Emergencies consist of tows, flats, and cars that are not drivable (i.e. smoking, unsafe to drive, reduced ability to drive.)
+1. Emergencies consist of tows, flats, and cars that are not drivable (i.e. smoking, unsafe to drive, reduced ability to drive.
 2. Customers often claim oil changes or other things convenient to their schedules are emergencies when they are not. We will deny them service if they try to come in on anything that can wait. So true emergencies only for walk-ins, everything else book it
 3. Any time where it’s a flat tire it's considered an emergency. We are required to accept tow ins and emergencies regardless of the next available appointment.
 4. <span class="red">**ABSOLUTELY NO WALK-IN ON SATURDAYS**</span>
