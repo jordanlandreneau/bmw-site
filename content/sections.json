@@ -78,6 +78,11 @@
           "id": "bmw-codes",
           "label": "BMW Codes",
           "file": "main/bmw-codes.md"
+        },
+        {
+          "id": "phone-script",
+          "label": "Phone Script",
+          "file": "main/phone-script.md"
         }
       ]
     },
