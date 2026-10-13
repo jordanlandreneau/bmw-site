@@ -2,8 +2,8 @@
 
 - Switch rooftops (mini vs bmw)
 - No drop off box - no drop off after 5:30 pm
-- Cracked windshield they can get a loaner vehicle – per james
-- Cracked windshield valet service are not available – per james
+- If the customer has a cracked Windshield, they can get a laoner
+- The customer can NOT get a valet service with a cracked windshield.
 - <span class="yellow">No walk ins on saturday - (must ok with service advisor for flat/ repair tire walk ins) on saturday maintenance only</span>
 - Mini: do not schedule footwell module
 - No motorcycles - motorrad left bmw of manhattan december of 2021
