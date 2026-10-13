@@ -1,9 +1,9 @@
 ## Dropping Off
 
 | Day | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| **BMW** | 6:30am - 2:50pm | 6:30am - 2:50pm | 6:30am - 2:50pm | 6:30am - 2:50pm | 7:30am - 2:50pm | 8:30am - 1:30pm | <span class="red">**Closed**</span> |
-| **Mini Cooper** | 8:10am - 5:00pm | 8:10am - 5:00pm | 8:10am - 5:00pm | 8:10am - 5:00pm | 8:10am - 5:00pm | <span class="red">**Closed**</span> | <span class="red">**Closed**</span> |
+|---|---|---|---|---|---|---|---|
+| **BMW** | 8:10am - 5:00pm | 6:30am - 2:50pm | 6:30am - 2:50pm | 6:30am - 2:50pm | 7:30am - 2:50pm | 8:30am - 1:30pm | <span class="red">**Closed**</span> |
+| **Mini Cooper** | 6:30am-2:50pm | 8:10am - 5:00pm | 8:10am - 5:00pm | 8:10am - 5:00pm | 8:10am - 5:00pm | <span class="red">**Closed**</span> | <span class="red">**Closed**</span> |
 
 Map: 555 W 57th St, New York, NY 10019
 
